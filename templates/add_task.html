@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Task</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>Create New Task</h1>
+  <form method="POST">
+    <label for="title">Title:</label><br>
+    <input id="title" type="text" name="title" required title="Task title" placeholder="Enter title" aria-label="Title"><br><br>
+
+    <label for="amount">Amount:</label><br>
+    <input id="amount" type="number" name="amount" step="0.01" required title="Amount" placeholder="Enter amount" aria-label="Amount"><br><br>
+
+    <label for="deadline">Deadline:</label><br>
+    <input id="deadline" type="date" name="deadline" required title="Deadline" placeholder="YYYY-MM-DD" aria-label="Deadline"><br><br>
+
+    <button type="submit">Add Task</button>
+  </form>
+  <br>
+  <a href="/">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Business Process Automation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>All Tasks</h1>
+  <a href="/add">Add New Task</a>
+  <table border="1" cellpadding="8">
+    <tr>
+      <th>ID</th><th>Title</th><th>Amount</th><th>Assigned To</th><th>Deadline</th><th>Status</th><th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+      <td>{{ task.id }}</td>
+      <td>{{ task.title }}</td>
+      <td>{{ task.amount }}</td>
+      <td>{{ task.assigned_to }}</td>
+      <td>{{ task.deadline }}</td>
+      <td>{{ task.status }}</td>
+      <td>
+  {% if task.status.lower() == 'completed' %}
+    <span class="status status-completed">{{ task.status }}</span>
+  {% elif task.status.lower() in ['in progress', 'progress'] %}
+    <span class="status status-progress">{{ task.status }}</span>
+  {% elif task.status.lower() == 'overdue' %}
+    <span class="status status-overdue">{{ task.status }}</span>
+  {% else %}
+    <span class="status status-pending">{{ task.status }}</span>
+  {% endif %}
+</td>
+<td>
+      {% if task.status != "Completed" %}
+        <a href="/complete/{{ task.id }}">✅ Mark Completed</a>
+      {% else %}
+        ✔️ Done
+      {% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+<h2>📊 Task Status Overview</h2>
+<canvas id="taskChart" width="400" height="150"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('taskChart');
+
+  const data = {
+    labels: ['Tasks'],
+    datasets: [
+      {
+        label: 'Completed',
+        data: [{{ completed_count }}],
+        backgroundColor: 'rgba(34,197,94,0.6)',   // Green
+        borderColor: 'rgba(34,197,94,1)',
+        borderWidth: 1
+      },
+      {
+        label: 'In Progress',
+        data: [{{ progress_count }}],
+        backgroundColor: 'rgba(250,204,21,0.6)',  // Yellow
+        borderColor: 'rgba(250,204,21,1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Pending',
+        data: [{{ pending_count }}],
+        backgroundColor: 'rgba(96,165,250,0.6)',  // Blue
+        borderColor: 'rgba(96,165,250,1)',
+        borderWidth: 1
+      },
+      {
+        label: 'Overdue',
+        data: [{{ overdue_count }}],
+        backgroundColor: 'rgba(239,68,68,0.6)',   // Red
+        borderColor: 'rgba(239,68,68,1)',
+        borderWidth: 1
+      }
+    ]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Task Status Distribution'
+        },
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 20,
+            padding: 15,
+            font: {
+              size: 14
+            }
+
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Tasks'
+          }
+        }
+      }
+    }
+    
+  };
+
+  new Chart(ctx, config);
+</script>
+
+
+</body>
+</html>
