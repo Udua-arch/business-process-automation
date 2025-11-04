@@ -12,3 +12,11 @@ A mini workflow automation project built in Python (Flask + SQLite) that simulat
 ```bash
 pip install flask sqlalchemy
 python app.py
+```
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Task Homepage
+![Task_Homepage Screenshot](screenshots/Task_Homepage.png)
