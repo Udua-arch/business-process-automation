@@ -20,3 +20,6 @@ python app.py
 
 ### 🏠 Task Homepage
 ![Task_Homepage Screenshot](screenshots/Task_Homepage.png)
+
+### New Task
+![New_Task Screenshot](screenshots/New_Task.png)
